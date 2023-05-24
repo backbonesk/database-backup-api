@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "database-backup-api"
+version = "0.1.0"
+description = "Database backup api"
+authors = ["Michal Urban"]
+readme = "README.md"
+packages = [{include = "database_backup_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95.2"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
+sqlalchemy = "^2.0.15"
+python-multipart = "^0.0.6"
+psycopg2 = "^2.9.6"
+black = "^23.3.0"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
