@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "Database backup api"
 authors = ["Michal Urban"]
 readme = "README.md"
-packages = [{include = "database_backup_api"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
