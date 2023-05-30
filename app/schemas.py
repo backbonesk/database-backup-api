@@ -23,10 +23,10 @@ class BackupSchedules(BaseModel):
     id: int
     host: str
     port: int
-    database_name: str
+    dbname: str
     username: str
     password: str
-    rrule_string: str
+    rrulestring: str
 
     class Config:
         orm_mode = True
