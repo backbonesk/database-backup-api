@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from . import crud, schemas
 from . import models
-from .database import SessionLocal, engine
+from .database import db, engine
 from passlib.context import CryptContext
 
 # to get a string like this run:
@@ -37,8 +37,6 @@ def get_db():
     finally:
         db.close()
 """
-
-db = SessionLocal()
 
 
 def verify_password(plain_password, hashed_password):

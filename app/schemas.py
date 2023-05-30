@@ -11,8 +11,22 @@ class TokenData(BaseModel):
 
 
 class User(BaseModel):
+    id: int
     username: str
     password: str
+
+    class Config:
+        orm_mode = True
+
+
+class DatabaseSchedules(BaseModel):
+    id: int
+    host: str
+    port: int
+    database_name: str
+    username: str
+    password: str
+    rrule_string: str
 
     class Config:
         orm_mode = True
