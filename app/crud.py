@@ -1,4 +1,3 @@
-import sqlalchemy
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -36,3 +35,18 @@ def get_backup_schedules_public(db: Session):
             }
         )
     return result_dicts
+
+
+def create_backup_schedule(db: Session, form_data: schemas.BackupSchedulesForm):
+    # TODO: Refactor
+    row = models.BackupSchedules(
+        host=form_data.host,
+        port=form_data.port,
+        dbname=form_data.dbname,
+        username=form_data.username,
+        password=form_data.password,
+        rrulestring=form_data.rrulestring,
+    )
+    db.add(row)
+    db.commit()
+    db.refresh(row)

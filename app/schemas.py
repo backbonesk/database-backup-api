@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+from fastapi import Form
 from pydantic import BaseModel
 
 
@@ -20,7 +22,6 @@ class User(BaseModel):
 
 
 class BackupSchedules(BaseModel):
-    id: int
     host: str
     port: int
     dbname: str
@@ -30,3 +31,13 @@ class BackupSchedules(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+@dataclass
+class BackupSchedulesForm:
+    host: str = Form(...)
+    port: int = Form(...)
+    dbname: str = Form(...)
+    username: str = Form(...)
+    password: str = Form(...)
+    rrulestring: str = Form(...)
