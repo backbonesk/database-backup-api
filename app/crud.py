@@ -22,17 +22,17 @@ def get_backup_schedules(db: Session):
 
 def get_backup_schedules_public(db: Session):
     results = db.query(
-        models.BackupSchedules.database_name,
+        models.BackupSchedules.dbname,
         models.BackupSchedules.host,
-        models.BackupSchedules.rrule_string,
+        models.BackupSchedules.rrulestring,
     ).all()
     result_dicts = []
     for result in results:
         result_dicts.append(
             {
-                "database_name": result.database_name,
+                "dbname": result.dbname,
                 "host": result.host,
-                "rrule_string": result.rrule_string,
+                "rrulestring": result.rrulestring,
             }
         )
     return result_dicts
