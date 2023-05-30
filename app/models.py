@@ -10,8 +10,8 @@ class User(Base):
     password = Column(String)
 
 
-class DatabaseSchedules(Base):
-    __tablename__ = "database_schedules"
+class BackupSchedules(Base):
+    __tablename__ = "backup_schedules"
     id = Column(Integer, primary_key=True)
     host = Column(String)
     port = Column(Integer)

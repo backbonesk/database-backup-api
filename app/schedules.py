@@ -3,6 +3,6 @@ from .database import db
 
 
 def scheduler_job():
-    schedules = crud.get_db_schedules(db)
+    schedules = crud.get_backup_schedules(db)
     for schedule in schedules:
-        print(schedule.__dict__)
+        pass

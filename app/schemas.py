@@ -19,7 +19,7 @@ class User(BaseModel):
         orm_mode = True
 
 
-class DatabaseSchedules(BaseModel):
+class BackupSchedules(BaseModel):
     id: int
     host: str
     port: int

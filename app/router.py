@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import json
 from typing import Annotated
 from jose import JWTError, jwt
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -110,3 +111,10 @@ async def read_users_me(
     current_user: Annotated[schemas.User, Depends(get_current_user)]
 ):
     return current_user.username
+
+
+@router.get("/backup_schedules")
+async def get_backup_schedules(
+    current_user: Annotated[schemas.User, Depends(get_current_user)]
+):
+    return crud.get_backup_schedules_public(db)
