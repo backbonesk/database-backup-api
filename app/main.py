@@ -1,9 +1,25 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+from apscheduler.schedulers.background import BackgroundScheduler
+
 
 from .router import router
+from .schedules import scheduler_job
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # App Start
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(scheduler_job, "interval", minutes=1)
+    scheduler.start()
+    yield
+    # App Stop
+    scheduler.shutdown()
+
+
+app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost:8080",

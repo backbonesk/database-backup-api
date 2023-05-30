@@ -11,6 +11,7 @@ from passlib.context import CryptContext
 
 # to get a string like this run:
 # openssl rand -hex 32
+# TODO: load from .env
 SECRET_KEY = "89afa0ea05e272f5a746f466be7c256d982d307903e8201ad8f6c11450e71d7f"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 24 * 60
