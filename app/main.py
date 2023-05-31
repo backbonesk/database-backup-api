@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 
 from .router import router
@@ -11,7 +11,7 @@ from .schedules import scheduler_job
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # App Start
-    scheduler = BackgroundScheduler()
+    scheduler = AsyncIOScheduler()
     scheduler.add_job(scheduler_job, "interval", minutes=1)
     scheduler.start()
     yield
