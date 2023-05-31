@@ -16,15 +16,15 @@ def get_user(db: Session, username: str):
 
 
 def get_backup_schedules(db: Session):
-    return db.query(models.BackupSchedules).all()
+    return db.query(models.BackupSchedule).all()
 
 
 def get_backup_schedules_public(db: Session):
     results = db.query(
-        models.BackupSchedules.id,
-        models.BackupSchedules.dbname,
-        models.BackupSchedules.host,
-        models.BackupSchedules.rrulestring,
+        models.BackupSchedule.id,
+        models.BackupSchedule.dbname,
+        models.BackupSchedule.host,
+        models.BackupSchedule.rrulestring,
     ).all()
     result_dicts = []
     for result in results:
@@ -39,15 +39,16 @@ def get_backup_schedules_public(db: Session):
     return result_dicts
 
 
-def create_backup_schedule(db: Session, form_data: schemas.BackupSchedulesForm):
+def create_backup_schedule(db: Session, form_data: schemas.BackupScheduleForm):
     # TODO: Refactor
-    row = models.BackupSchedules(
+    row = models.BackupSchedule(
         host=form_data.host,
         port=form_data.port,
         dbname=form_data.dbname,
         username=form_data.username,
         password=form_data.password,
         rrulestring=form_data.rrulestring,
+        backupdest=form_data.backupdest,
     )
     db.add(row)
     db.commit()
@@ -55,5 +56,5 @@ def create_backup_schedule(db: Session, form_data: schemas.BackupSchedulesForm):
 
 
 def delete_backup_schedule(db: Session, uuid: str):
-    db.query(models.BackupSchedules).filter(models.BackupSchedules.id == uuid).delete()
+    db.query(models.BackupSchedule).filter(models.BackupSchedule.id == uuid).delete()
     db.commit()

@@ -21,23 +21,25 @@ class User(BaseModel):
         orm_mode = True
 
 
-class BackupSchedules(BaseModel):
+class BackupSchedule(BaseModel):
     host: str
     port: int
     dbname: str
     username: str
     password: str
     rrulestring: str
+    backupdest: str
 
     class Config:
         orm_mode = True
 
 
 @dataclass
-class BackupSchedulesForm:
+class BackupScheduleForm:
     host: str = Form(...)
     port: int = Form(...)
     dbname: str = Form(...)
     username: str = Form(...)
     password: str = Form(...)
     rrulestring: str = Form(...)
+    backupdest: str = Form(...)

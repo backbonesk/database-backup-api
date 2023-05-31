@@ -116,7 +116,7 @@ async def get_backup_schedules(
 @router.put("/backup_schedule")
 async def put_backup_schedule(
     current_user: Annotated[schemas.User, Depends(get_current_user)],
-    form_data: schemas.BackupSchedulesForm = Depends(),
+    form_data: schemas.BackupScheduleForm = Depends(),
 ):
     crud.create_backup_schedule(db, form_data)
 

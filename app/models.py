@@ -11,7 +11,7 @@ class User(Base):
     password = Column(String)
 
 
-class BackupSchedules(Base):
+class BackupSchedule(Base):
     __tablename__ = "backup_schedules"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     host = Column(String)
@@ -20,3 +20,4 @@ class BackupSchedules(Base):
     username = Column(String)
     password = Column(String)
     rrulestring = Column(String)
+    backupdest = Column(String)
