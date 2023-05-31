@@ -21,6 +21,7 @@ def get_backup_schedules(db: Session):
 
 def get_backup_schedules_public(db: Session):
     results = db.query(
+        models.BackupSchedules.id,
         models.BackupSchedules.dbname,
         models.BackupSchedules.host,
         models.BackupSchedules.rrulestring,
@@ -29,6 +30,7 @@ def get_backup_schedules_public(db: Session):
     for result in results:
         result_dicts.append(
             {
+                "uuid": result.id,
                 "dbname": result.dbname,
                 "host": result.host,
                 "rrulestring": result.rrulestring,
@@ -50,3 +52,8 @@ def create_backup_schedule(db: Session, form_data: schemas.BackupSchedulesForm):
     db.add(row)
     db.commit()
     db.refresh(row)
+
+
+def delete_backup_schedule(db: Session, uuid: str):
+    db.query(models.BackupSchedules).filter(models.BackupSchedules.id == uuid).delete()
+    db.commit()

@@ -106,13 +106,6 @@ async def login_for_access_token(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@router.get("/users/me")
-async def read_users_me(
-    current_user: Annotated[schemas.User, Depends(get_current_user)]
-):
-    return current_user.username
-
-
 @router.get("/backup_schedules")
 async def get_backup_schedules(
     current_user: Annotated[schemas.User, Depends(get_current_user)]
@@ -121,8 +114,15 @@ async def get_backup_schedules(
 
 
 @router.put("/backup_schedule")
-async def backup_schedule(
+async def put_backup_schedule(
     current_user: Annotated[schemas.User, Depends(get_current_user)],
     form_data: schemas.BackupSchedulesForm = Depends(),
 ):
     crud.create_backup_schedule(db, form_data)
+
+
+@router.delete("/backup_schedule")
+async def delete_backup_schedule(
+    current_user: Annotated[schemas.User, Depends(get_current_user)], uuid: str
+):
+    crud.delete_backup_schedule(db, uuid)
