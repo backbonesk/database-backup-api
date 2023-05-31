@@ -39,17 +39,8 @@ def get_backup_schedules_public(db: Session):
     return result_dicts
 
 
-def create_backup_schedule(db: Session, form_data: schemas.BackupScheduleForm):
-    # TODO: Refactor
-    row = models.BackupSchedule(
-        host=form_data.host,
-        port=form_data.port,
-        dbname=form_data.dbname,
-        username=form_data.username,
-        password=form_data.password,
-        rrulestring=form_data.rrulestring,
-        backupdest=form_data.backupdest,
-    )
+def create_backup_schedule(db: Session, form_data: schemas.BackupSchedule):
+    row = models.BackupSchedule(**form_data.dict())
     db.add(row)
     db.commit()
     db.refresh(row)

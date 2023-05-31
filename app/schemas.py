@@ -32,14 +32,3 @@ class BackupSchedule(BaseModel):
 
     class Config:
         orm_mode = True
-
-
-@dataclass
-class BackupScheduleForm:
-    host: str = Form(...)
-    port: int = Form(...)
-    dbname: str = Form(...)
-    username: str = Form(...)
-    password: str = Form(...)
-    rrulestring: str = Form(...)
-    backupdest: str = Form(...)
