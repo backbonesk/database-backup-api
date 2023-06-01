@@ -21,14 +21,14 @@ class User(BaseModel):
         orm_mode = True
 
 
-class BackupSchedule(BaseModel):
+class Backup(BaseModel):
     host: str
     port: int
     dbname: str
     username: str
     password: str
     rrulestring: str
-    backupdest: str
+    destination: str
 
     class Config:
         orm_mode = True
