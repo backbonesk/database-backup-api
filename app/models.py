@@ -2,7 +2,9 @@ import enum
 import uuid
 from sqlalchemy import Column, String, Integer, Enum
 from sqlalchemy.dialects.postgresql import UUID
-from .database import Base
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 
 class User(Base):
@@ -20,7 +22,7 @@ class BackupStatus(enum.Enum):
 
 
 class Backup(Base):
-    __tablename__ = "backup"
+    __tablename__ = "backups"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     host = Column(String)
     port = Column(Integer)

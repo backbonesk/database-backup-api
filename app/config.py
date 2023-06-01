@@ -2,7 +2,7 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    SQLALCHEMY_DATABASE_URL: str
+    DATABASE_URL: str
     APP_NAME: str = "DB Backup API"
 
     class Config:
