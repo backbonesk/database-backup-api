@@ -13,6 +13,7 @@ class User(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = Column(String)
     password = Column(String)
+    created_at = Column(DateTime, default=datetime.now)
 
 
 class BackupStatus(enum.Enum):
@@ -33,6 +34,7 @@ class Backup(Base):
     rrule = Column(String)
     destination = Column(String)
     status = Column(Enum(BackupStatus))
+    created_at = Column(DateTime, default=datetime.now)
 
 
 class BackupRecord(Base):

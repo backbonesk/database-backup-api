@@ -3,6 +3,7 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     DATABASE_URL: str
+    BASE_DIR: str
     APP_NAME: str = "DB Backup API"
 
     class Config:

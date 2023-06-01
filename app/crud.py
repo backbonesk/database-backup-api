@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 
 from . import schemas
 from .models import BackupRecord, BackupStatus, User, Backup
+from .config import settings
 
 
 def get_user(db: Session, username: str):
@@ -35,7 +36,12 @@ def get_backup_schedules_public(db: Session):
 
 
 def create_backup_schedule(db: Session, form_data: schemas.Backup):
-    row = Backup(**form_data.dict(), status=BackupStatus.scheduled)
+    backup_dict = {
+        **form_data.dict(),
+        "destination": "{}/{}".format(settings.BASE_DIR, form_data.destination),
+        "status": BackupStatus.scheduled,
+    }
+    row = Backup(**backup_dict)
     db.add(row)
     db.commit()
     db.refresh(row)

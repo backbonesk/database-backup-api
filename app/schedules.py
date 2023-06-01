@@ -1,6 +1,7 @@
 import logging
 import subprocess
 import threading
+
 from . import crud
 from .database import db
 from .models import Backup, BackupRecord, BackupStatus
@@ -24,7 +25,7 @@ def create_backup(schedule: Backup):
                 "-U",
                 str(schedule.username),
                 "-f",
-                "{}.bak".format(schedule.destination),
+                str(schedule.destination),
                 str(schedule.dbname),
             ]
         )
