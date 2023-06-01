@@ -1,3 +1,4 @@
+import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -8,12 +9,17 @@ from .router import router
 from .schedules import scheduler_job
 
 
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("apscheduler").setLevel(logging.WARNING)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # App Start
     scheduler = AsyncIOScheduler()
     scheduler.add_job(scheduler_job, "interval", minutes=1)
     scheduler.start()
+    logging.info("APScheduler started")
     yield
     # App Stop
     scheduler.shutdown()

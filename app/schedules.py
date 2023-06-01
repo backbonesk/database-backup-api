@@ -1,3 +1,4 @@
+import logging
 import subprocess
 import threading
 from . import crud
@@ -30,6 +31,7 @@ def create_backup(schedule: Backup):
 
         crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.finished)
     except Exception as e:
+        logging.error(f"Backup error: {e}")
         crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.failed)
 
 
