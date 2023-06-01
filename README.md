@@ -4,19 +4,47 @@ Database Backup Scheduler API
 
 Built using python and fastapi
 
-## Developing
+## Setup
 
 Install dependencies using [poetry](https://python-poetry.org)
 
-```
+```bash
 poetry install
 ```
 
 Activate venv
 
-```
+```bash
 poetry shell
 ```
+
+## Database
+
+Enter `psql`
+
+```bash
+psql
+```
+
+Create database
+
+```sql
+CREATE DATABASE database_backup;
+```
+
+Create migrations
+
+```bash
+alembic revision --autogenerate -m "init"
+```
+
+Apply migrations
+
+```bash
+alembic upgrade head
+```
+
+## Developing
 
 Run dev server (creates postgres tables)
 
