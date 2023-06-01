@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 def create_backup(schedule: Backup):
-    crud.update_backup_schedule_status(db, str(schedule.id), "running")
+    crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.running)
     try:
         process = subprocess.run(
             [
@@ -24,9 +24,9 @@ def create_backup(schedule: Backup):
         if int(process.returncode) != 0:
             raise
 
-        crud.update_backup_schedule_status(db, str(schedule.id), "finished")
+        crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.finished)
     except:
-        crud.update_backup_schedule_status(db, str(schedule.id), "failed")
+        crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.failed)
 
 
 def scheduler_job():
@@ -35,7 +35,7 @@ def scheduler_job():
     schedules = crud.get_backup_schedules(db)
 
     for schedule in schedules:
-        if schedule.status == BackupStatus.scheduled:  # type: ignore
+        if schedule.status == BackupStatus.running:  # type: ignore
             continue
         rule = rrulestr(schedule.rrulestring)
         dt = list(rule)[0]

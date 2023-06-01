@@ -46,7 +46,7 @@ def delete_backup_schedule(db: Session, uuid: str):
     db.commit()
 
 
-def update_backup_schedule_status(db: Session, uuid: str, status: str):
+def update_backup_schedule_status(db: Session, uuid: str, status: BackupStatus):
     schedule = db.query(Backup).filter(Backup.id == uuid)
     schedule.update({Backup.status: status})
     db.commit()
