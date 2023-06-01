@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from . import schemas
-from .models import BackupStatus, User, Backup
+from .models import BackupRecord, BackupStatus, User, Backup
 
 
 def get_user(db: Session, username: str):
@@ -50,3 +50,9 @@ def update_backup_schedule_status(db: Session, uuid: str, status: BackupStatus):
     schedule = db.query(Backup).filter(Backup.id == uuid)
     schedule.update({Backup.status: status})
     db.commit()
+
+
+def create_backup_record(db: Session, record: BackupRecord):
+    db.add(record)
+    db.commit()
+    db.refresh(record)

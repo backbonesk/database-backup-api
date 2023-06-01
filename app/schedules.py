@@ -3,7 +3,7 @@ import subprocess
 import threading
 from . import crud
 from .database import db
-from .models import Backup, BackupStatus
+from .models import Backup, BackupRecord, BackupStatus
 
 from dateutil.rrule import rrulestr
 from datetime import datetime
@@ -11,7 +11,9 @@ from datetime import datetime
 
 def create_backup(schedule: Backup):
     crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.running)
+    status = BackupStatus.running
     try:
+        crud.update_backup_schedule_status(db, str(schedule.id), status)
         process = subprocess.run(
             [
                 "pg_dump",
@@ -29,10 +31,14 @@ def create_backup(schedule: Backup):
         if int(process.returncode) != 0:
             raise
 
-        crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.finished)
+        status = BackupStatus.finished
     except Exception as e:
         logging.error(f"Backup error: {e}")
-        crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.failed)
+        status = BackupStatus.failed
+    crud.update_backup_schedule_status(db, str(schedule.id), status)
+    crud.create_backup_record(
+        db, BackupRecord(status=status, destination=schedule.destination)
+    )
 
 
 def scheduler_job():
