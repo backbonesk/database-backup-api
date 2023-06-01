@@ -1,4 +1,5 @@
 import subprocess
+import threading
 from . import crud
 from .database import db
 from .models import Backup, BackupStatus
@@ -43,4 +44,5 @@ def scheduler_job():
         rule = rrulestr(schedule.rrulestring)
         dt = list(rule)[0]
         if dt > now:
-            create_backup(schedule)
+            t = threading.Thread(target=create_backup, args=(schedule,))
+            t.start()
