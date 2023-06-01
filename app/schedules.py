@@ -13,19 +13,22 @@ def create_backup(schedule: Backup):
         process = subprocess.run(
             [
                 "pg_dump",
+                "-h",
+                str(schedule.host),
+                "-p",
+                str(schedule.port),
                 "-U",
                 str(schedule.username),
-                "-d",
-                str(schedule.dbname),
                 "-f",
-                "{}.sql".format(schedule.dest),
+                "{}.bak".format(schedule.destination),
+                str(schedule.dbname),
             ]
         )
         if int(process.returncode) != 0:
             raise
 
         crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.finished)
-    except:
+    except Exception as e:
         crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.failed)
 
 
