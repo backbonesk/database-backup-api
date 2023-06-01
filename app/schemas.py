@@ -27,7 +27,7 @@ class Backup(BaseModel):
     dbname: str
     username: str
     password: str
-    rrulestring: str
+    rrule: str
     destination: str
 
     class Config:

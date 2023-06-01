@@ -43,7 +43,7 @@ def scheduler_job():
     for schedule in schedules:
         if schedule.status == BackupStatus.running:  # type: ignore
             continue
-        rule = rrulestr(schedule.rrulestring)
+        rule = rrulestr(schedule.rrule)
         dt = list(rule)[0]
         if dt > now:
             t = threading.Thread(target=create_backup, args=(schedule,))

@@ -17,7 +17,7 @@ def get_backup_schedules_public(db: Session):
         Backup.id,
         Backup.dbname,
         Backup.host,
-        Backup.rrulestring,
+        Backup.rrule,
         Backup.status,
     ).all()
     result_dicts = []
@@ -27,7 +27,7 @@ def get_backup_schedules_public(db: Session):
                 "uuid": result.id,
                 "dbname": result.dbname,
                 "host": result.host,
-                "rrulestring": result.rrulestring,
+                "rrule": result.rrule,
                 "status": result.status,
             }
         )

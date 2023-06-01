@@ -1,6 +1,7 @@
 import enum
 import uuid
-from sqlalchemy import Column, String, Integer, Enum
+from datetime import datetime
+from sqlalchemy import Column, String, Integer, Enum, DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -27,8 +28,16 @@ class Backup(Base):
     host = Column(String)
     port = Column(Integer)
     dbname = Column(String)
-    username = Column(String)
-    password = Column(String)
-    rrulestring = Column(String)
+    username = Column(String(100))
+    password = Column(String(100))
+    rrule = Column(String)
     destination = Column(String)
     status = Column(Enum(BackupStatus))
+
+
+class BackupRecord(Base):
+    __tablename__ = "backup_records"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    status = Column(Enum(BackupStatus))
+    destination = Column(String)
+    created_at = Column(DateTime, default=datetime.now)
