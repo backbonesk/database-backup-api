@@ -40,6 +40,7 @@ class Backup(Base):
 class BackupRecord(Base):
     __tablename__ = "backup_records"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    backup_id = Column(UUID(as_uuid=True))
     status = Column(Enum(BackupStatus))
     destination = Column(String)
     created_at = Column(DateTime, default=datetime.now)

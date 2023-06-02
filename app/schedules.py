@@ -38,7 +38,10 @@ def create_backup(schedule: Backup):
         status = BackupStatus.failed
     crud.update_backup_schedule_status(db, str(schedule.id), status)
     crud.create_backup_record(
-        db, BackupRecord(status=status, destination=schedule.destination)
+        db,
+        BackupRecord(
+            backup_id=schedule.id, status=status, destination=schedule.destination
+        ),
     )
 
 

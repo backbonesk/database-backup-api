@@ -35,6 +35,10 @@ def get_backup_schedules_public(db: Session):
     return result_dicts
 
 
+def get_backup_schedule_records(db: Session, backup_id: str):
+    return db.query(BackupRecord).filter(BackupRecord.backup_id == backup_id).all()
+
+
 def create_backup_schedule(db: Session, form_data: schemas.Backup):
     backup_dict = {
         **form_data.dict(),

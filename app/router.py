@@ -123,3 +123,10 @@ async def delete_backup_schedule(
     current_user: Annotated[schemas.User, Depends(get_current_user)], uuid: str
 ):
     crud.delete_backup_schedule(db, uuid)
+
+
+@router.get("/backup_schedule_records")
+async def get_backup_schedule_records(
+    current_user: Annotated[schemas.User, Depends(get_current_user)], uuid: str
+):
+    return crud.get_backup_schedule_records(db, uuid)
