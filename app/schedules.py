@@ -55,6 +55,6 @@ def scheduler_job():
             continue
         rule = rrulestr(schedule.rrule)
         dt = list(rule)[0]
-        if dt > now:
+        if dt < now:
             t = threading.Thread(target=create_backup, args=(schedule,))
             t.start()
