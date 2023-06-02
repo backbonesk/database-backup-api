@@ -33,7 +33,6 @@ class Backup(Base):
     password = Column(String(100))
     rrule = Column(String)
     destination = Column(String)
-    status = Column(Enum(BackupStatus))
     created_at = Column(DateTime, default=datetime.now)
 
 

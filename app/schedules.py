@@ -11,10 +11,8 @@ from datetime import datetime
 
 
 def create_backup(schedule: Backup):
-    crud.update_backup_schedule_status(db, str(schedule.id), BackupStatus.running)
     status = BackupStatus.running
     try:
-        crud.update_backup_schedule_status(db, str(schedule.id), status)
         process = subprocess.run(
             [
                 "pg_dump",
@@ -36,7 +34,6 @@ def create_backup(schedule: Backup):
     except Exception as e:
         logging.error(f"Backup error: {e}")
         status = BackupStatus.failed
-    crud.update_backup_schedule_status(db, str(schedule.id), status)
     crud.create_backup_record(
         db,
         BackupRecord(
@@ -51,10 +48,9 @@ def scheduler_job():
     schedules = crud.get_backup_schedules(db)
 
     for schedule in schedules:
-        if schedule.status == BackupStatus.running:  # type: ignore
-            continue
         rule = rrulestr(schedule.rrule)
         dt = list(rule)[0]
-        if dt < now:
+        minutes_diff = (dt - now).total_seconds() / 60
+        if minutes_diff < 1:
             t = threading.Thread(target=create_backup, args=(schedule,))
             t.start()

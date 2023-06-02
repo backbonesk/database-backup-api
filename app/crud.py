@@ -19,7 +19,6 @@ def get_backup_schedules_public(db: Session):
         Backup.dbname,
         Backup.host,
         Backup.rrule,
-        Backup.status,
     ).all()
     result_dicts = []
     for result in results:
@@ -29,7 +28,6 @@ def get_backup_schedules_public(db: Session):
                 "dbname": result.dbname,
                 "host": result.host,
                 "rrule": result.rrule,
-                "status": result.status,
             }
         )
     return result_dicts
@@ -43,7 +41,6 @@ def create_backup_schedule(db: Session, form_data: schemas.Backup):
     backup_dict = {
         **form_data.dict(),
         "destination": "{}/{}".format(settings.BASE_DIR, form_data.destination),
-        "status": BackupStatus.scheduled,
     }
     row = Backup(**backup_dict)
     db.add(row)
@@ -53,12 +50,6 @@ def create_backup_schedule(db: Session, form_data: schemas.Backup):
 
 def delete_backup_schedule(db: Session, uuid: str):
     db.query(Backup).filter(Backup.id == uuid).delete()
-    db.commit()
-
-
-def update_backup_schedule_status(db: Session, uuid: str, status: BackupStatus):
-    schedule = db.query(Backup).filter(Backup.id == uuid)
-    schedule.update({Backup.status: status})
     db.commit()
 
 
